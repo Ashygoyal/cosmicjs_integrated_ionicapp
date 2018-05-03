@@ -17,7 +17,8 @@ export class ProductsList {
         private sanitizer: DomSanitizer
     ) {
         this.products = [];
-        this.category_title = this.params.get('title');        this.http.get(`https://api.cosmicjs.com/v1/cosmic-ionic/object-type/products/search?metafield_key=category&metafield_value=${this.params.get('id')}`).subscribe((resp) => {
+        this.category_title = this.params.get('title');        
+        this.http.get(`https://api.cosmicjs.com/v1/cosmic-ionic/object-type/products/search?metafield_key=category&metafield_value=${this.params.get('id')}`).subscribe((resp) => {
             let data = resp.json();
             if (data.objects) {
                 this.products = data.objects;

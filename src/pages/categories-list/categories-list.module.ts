@@ -1,13 +1,31 @@
-import { NgModule } from '@angular/core';
-import { IonicPageModule } from 'ionic-angular';
-import { CategoriesList } from './categories-list';
+import { Component } from '@angular/core';
+import { NavController } from 'ionic-angular';
+import Cosmic from 'cosmicjs';
+import { ProductsList } from '../products-list/products-list';
 
-@NgModule({
-  declarations: [
-    CategoriesList,
-  ],
-  imports: [
-    IonicPageModule.forChild(CategoriesList),
-  ],
+@Component({
+    selector: 'page-categories',
+    templateUrl: 'categories-list.html'
 })
-export class CategoriesListPageModule {}
+export class CategoriesList {
+    public categories;
+
+    constructor(
+        public navCtrl: NavController
+    ) {
+        this.categories = [];
+
+        Cosmic.getObjectType({
+            bucket: {
+                slug: 'cosmic-ionic'
+            }
+        }, {
+            type_slug: 'categories'
+        }, (err, res) => {
+            this.categories = res.objects.all;
+        });
+    }
+    navToCategory(category) {
+        this.navCtrl.push(ProductsList, { title: category.title, id: category._id });
+    }
+}
